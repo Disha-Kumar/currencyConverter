@@ -48,7 +48,7 @@ jobs:
           sudo systemctl restart nginx || { echo "❌ Failed to restart Nginx"; exit 1; }
 
           echo "🩺 Performing health check..."
-          if ! curl -s --max-time 10 http://localhost | grep -q "Currency Converter"; then
+          if ! curl -s -o /dev/null -w "%{http_code}" http://localhost | grep -q "200"; then
             echo "❌ Health check failed! Rolling back..."
             
             sudo git reset --hard $CURRENT_COMMIT
